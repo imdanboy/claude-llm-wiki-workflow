@@ -1,0 +1,8 @@
+{
+  "name": "llm-wiki",
+  "version": "0.1.0",
+  "description": "LLM-friendly docs/ workflow: task spec, daily/weekly report, wiki sync",
+  "author": {
+    "name": "imdanboy"
+  }
+}
