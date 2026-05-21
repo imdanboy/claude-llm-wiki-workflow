@@ -18,13 +18,27 @@ Claude Code 플러그인. 프로젝트별 `docs/` 디렉토리 기반의 LLM 친
 
 ```
 /plugin marketplace add git@github.com:imdanboy/claude-llm-wiki-workflow.git
-/plugin install llm-wiki
+/plugin install llm-wiki@claude-llm-wiki-workflow
 ```
 
 업데이트:
 
 ```
 /plugin marketplace update claude-llm-wiki-workflow
+```
+
+## 디렉토리 구조
+
+```
+.claude-plugin/marketplace.json    ← marketplace 카탈로그
+plugins/llm-wiki/
+├── .claude-plugin/plugin.json     ← 플러그인 매니페스트
+└── commands/                       ← 슬래시 커맨드 정의
+    ├── init.md
+    ├── new-task.md
+    ├── daily-report.md
+    ├── weekly-report.md
+    └── wiki-sync.md
 ```
 
 ## 신규 프로젝트 부트스트랩

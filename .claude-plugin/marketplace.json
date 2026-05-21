@@ -1,0 +1,19 @@
+{
+  "name": "claude-llm-wiki-workflow",
+  "owner": {
+    "name": "imdanboy"
+  },
+  "metadata": {
+    "description": "LLM-friendly docs/ workflow plugins — task spec, daily/weekly report, wiki sync",
+    "version": "0.1.0",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "llm-wiki",
+      "source": "./plugins/llm-wiki",
+      "description": "docs/ 기반 LLM 친화 워크플로우 — task spec, daily/weekly report, wiki sync",
+      "keywords": ["workflow", "docs", "wiki", "report", "task"]
+    }
+  ]
+}
