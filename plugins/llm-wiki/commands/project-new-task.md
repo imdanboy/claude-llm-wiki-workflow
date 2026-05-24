@@ -3,9 +3,9 @@ description: 오늘 날짜의 작업 명세 파일 docs/task/YYYYMMDD.md 를 템
 argument-hint: "[--clean]"
 ---
 
-# /llm-wiki:new-task
+# /llm-wiki:project-new-task
 
-오늘 날짜의 작업 명세 파일을 생성한다. 기본은 직전 명세의 미완료 항목
+오늘 날짜의 작업 명세 파일을 프로젝트 위키 (`<cwd>/docs/task/`) 에 생성한다. 기본은 직전 명세의 미완료 항목
 (`[ ]` ready, `[WIP]` 사용자 작성 중) 을 제목+본문 통째로 이어받는다.
 `--clean` 옵션을 주면 빈 템플릿으로 시작한다.
 
@@ -30,19 +30,33 @@ argument-hint: "[--clean]"
    4. **본문 섹션 파싱**: 각 carry 대상 번호 `N` 에 대응하는 `## N.` 섹션 (다음 `## ` 또는 EOF 까지) 을 본문으로 함께 추출.
    5. **번호 재할당**: carry 대상을 등장 순서대로 1부터 재번호. TODO 라인과 본문 헤더 (`## <new_num>.`) 모두 갱신.
 5. **파일 작성**:
-   - `docs/task/_TEMPLATE.md` 를 Read 로 읽는다. 없으면 사용자에게 "`/llm-wiki:init` 을 먼저 실행하라" 안내하고 종료.
-   - 헤더 `# YYYY-MM-DD` 를 오늘 ISO 날짜 (예: `# 2026-05-21`) 로 치환.
+   - `docs/task/_TEMPLATE.md` 를 Read 로 읽는다. 없으면 사용자에게 "`/llm-wiki:project-init` 을 먼저 실행하라" 안내하고 종료.
+   - **Frontmatter placeholder 치환** (필수): 템플릿 frontmatter 의 `name: YYYYMMDD`, `created: YYYY-MM-DD`, `updated: YYYY-MM-DD` 를 오늘 값으로 치환. `description` 은 사용자가 TODO 작성 후 수정할 placeholder 로 유지.
+   - 본문 헤더 `# YYYY-MM-DD` 를 오늘 ISO 날짜 (예: `# 2026-05-21`) 로 치환.
    - **carry 항목이 있으면**: 템플릿의 placeholder TODO 라인 (`1. [ ] <짧은 제목>`) 과 `## 1.` 빈 섹션을 제거하고, 그 자리에 재번호된 carry TODO 리스트 + 본문 섹션들을 삽입.
-   - **carry 항목이 없거나 `--clean` 이면**: 템플릿 그대로.
+   - **carry 항목이 없거나 `--clean` 이면**: 템플릿 그대로 (frontmatter 만 치환).
    - `docs/task/<YYYYMMDD>.md` 로 Write.
 6. **보고**: 생성된 경로를 출력하고, carry 가 발생했으면 다음을 함께 알린다.
    - 가져온 항목 수와 각 항목의 (새 번호, 원본 번호, 원본 마커, 제목)
-   - 빈 템플릿이면 "사용자가 직접 TODO 항목과 본문을 채워야 한다" 안내.
+   - 빈 템플릿이면 "사용자가 직접 TODO 항목과 본문, frontmatter description 을 채워야 한다" 안내.
 
 ## 예시
 
-직전 `20260520.md` 가 다음과 같다고 하자.
+`_TEMPLATE.md` 가 frontmatter + 본문 구조라고 가정한다. 직전 `20260520.md` 가 다음과 같다고 하자.
+
 ```
+---
+name: 20260520
+title: 2026-05-20 task spec
+description: A/B/C 작업
+tags: [task]
+aliases: []
+created: 2026-05-20
+updated: 2026-05-20
+---
+
+# 2026-05-20
+
 ## TODO
 1. [DONE] A 작업 → docs/logs/20260520/a/
 2. [ ] B 작업
@@ -58,8 +72,19 @@ argument-hint: "[--clean]"
 **목표:** C...
 ```
 
-`/llm-wiki:new-task` 로 생성된 `20260521.md` 는 다음과 같다.
+`/llm-wiki:project-new-task` 로 생성된 `20260521.md` 는 다음과 같다.
+
 ```
+---
+name: 20260521
+title: 2026-05-21 task spec
+description: <오늘 작업의 한 줄 요약 — TODO 채운 후 갱신>
+tags: [task]
+aliases: []
+created: 2026-05-21
+updated: 2026-05-21
+---
+
 # 2026-05-21
 
 ## TODO
@@ -73,7 +98,7 @@ argument-hint: "[--clean]"
 **목표:** C...
 ```
 
-`/llm-wiki:new-task --clean` 이면 템플릿 그대로 (TODO 1개, `## 1.` 빈 섹션).
+`/llm-wiki:project-new-task --clean` 이면 템플릿 그대로 (TODO 1개, `## 1.` 빈 섹션) + frontmatter 치환만.
 
 ## 제약
 

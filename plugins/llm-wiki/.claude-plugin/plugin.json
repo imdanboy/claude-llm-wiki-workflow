@@ -1,7 +1,7 @@
 {
   "name": "llm-wiki",
-  "version": "0.1.0",
-  "description": "LLM-friendly docs/ workflow: task spec, daily/weekly report, wiki sync",
+  "version": "0.2.0",
+  "description": "Home + project wiki workflow (Obsidian + wiki.vim 호환). 3-tier 커맨드: 공유 (moc-sync, digest), 프로젝트 (project-*), 홈 (home-*). frontmatter + leading-slash wikilink 컨벤션.",
   "author": {
     "name": "imdanboy"
   }
