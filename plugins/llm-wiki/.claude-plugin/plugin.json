@@ -1,7 +1,7 @@
 {
   "name": "llm-wiki",
-  "version": "0.2.0",
-  "description": "Home + project wiki workflow (Obsidian + wiki.vim 호환). 3-tier 커맨드: 공유 (moc-sync, digest), 프로젝트 (project-*), 홈 (home-*). frontmatter + leading-slash wikilink 컨벤션.",
+  "version": "0.3.0",
+  "description": "Home + project wiki workflow (Obsidian + wiki.vim 호환). 3-tier 스킬: 공유 (moc-sync, digest), 프로젝트 (project-*), 홈 (home-*). frontmatter + leading-slash wikilink 컨벤션. v0.3.0: commands/ → skills/<name>/SKILL.md 디렉토리 구조 이전.",
   "author": {
     "name": "imdanboy"
   }
