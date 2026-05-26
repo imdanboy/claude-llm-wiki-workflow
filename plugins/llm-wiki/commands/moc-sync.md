@@ -8,7 +8,7 @@ vault 의 `index.md` 를 frontmatter 기반으로 재생성한다. 각 노트의
 
 ## Vault 자동감지
 
-1. `git rev-parse --show-toplevel` 가 성공하고 `<root>/docs/index.md` 가 존재 → **project mode** (vault root = `<git root>`, MOC = `<root>/docs/index.md`).
+1. `git rev-parse --show-toplevel` 가 성공하고 `<root>/docs/index.md` 가 존재 → **project mode** (vault root = `<git root>/docs`, MOC = `<root>/docs/index.md`).
 2. cwd 가 `~/wiki/` 하위거나 `~/wiki/index.md` 가 존재 → **home mode** (vault root = `~/wiki`, MOC = `~/wiki/index.md`).
 3. 둘 다 매칭 안 되거나 두 조건이 모두 매칭되면 사용자에게 명시 요청 (`--vault project|home`).
 
@@ -17,7 +17,7 @@ vault 의 `index.md` 를 frontmatter 기반으로 재생성한다. 각 노트의
 1. **vault 결정**: 위 자동감지. mode 와 vault root 를 사용자에게 알림.
 2. **카테고리 폴더 스캔**: vault root 하위 폴더 중 frontmatter 갖춘 `.md` 파일을 가진 것들.
    - **home mode**: `topics/`, `projects/`, `experiments/`, `journal/`, `raw/`. root 의 `todos.md`, `links.md`, `WIKI-CONVENTIONS.md` 등 단일 파일도 별도 처리.
-   - **project mode**: `docs/wiki/`, `docs/task/`, `docs/reports/`, `docs/raw/`. (logs/ 는 gitignored 라 인덱스 제외.)
+   - **project mode**: `wiki/`, `task/`, `reports/`, `raw/` (vault root = `<git root>/docs` 기준). `logs/` 는 gitignored 라 인덱스 제외.
 3. **frontmatter 추출**: 각 `.md` 파일의 frontmatter 만 Read (본문 미사용). `name` 과 `description` 추출. frontmatter 가 없는 파일은 경고 목록에 모아 마지막에 보고.
 4. **현재 index.md Read**: 기존 구조 (사용 규칙, Meta, 카테고리 헤더, etc.) 를 보존. 카테고리별 bullet 리스트만 갱신 대상.
 5. **diff 제안**:
@@ -34,7 +34,7 @@ vault 의 `index.md` 를 frontmatter 기반으로 재생성한다. 각 노트의
 ```
 
 home mode 예: `- [[/topics/tts]] — TTS 모델·G2P·MFA·neural audio codec·LLM TTS·데이터셋 정리.`
-project mode 예: `- [[/docs/wiki/normalization-rules]] — N2gkPlus.__call__ 의 11단계 파이프라인...`
+project mode 예: `- [[/wiki/normalization-rules]] — N2gkPlus.__call__ 의 11단계 파이프라인...` (vault root = `<repo>/docs/` 라 wikilink 에 `/docs/` prefix 없음)
 
 ## 경고 보고
 

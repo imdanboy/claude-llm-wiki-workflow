@@ -25,7 +25,7 @@ argument-hint: "[days=1]"
 3. **제안**:
    - 변경 대상별로 diff 형식으로 출력
    - 각 변경마다 "왜 이 위치에 / 왜 이 내용을" 1-2 줄 근거
-   - **새 위키 파일 제안 시**: frontmatter (`name` / `title` / `description ~80자` / `tags` / `aliases` / `created` / `updated`) 포함한 완성된 형태로 제안. wikilink 는 leading-slash (`[[/docs/wiki/...]]`)
+   - **새 위키 파일 제안 시**: frontmatter (`name` / `title` / `description ~80자` / `tags` / `aliases` / `created` / `updated`) 포함한 완성된 형태로 제안. wikilink 는 leading-slash (`[[/wiki/...]]`, vault root = `<repo>/docs/` 기준)
    - **기존 파일 수정 시**: 해당 파일의 frontmatter `updated` 필드도 오늘 날짜로 갱신
 4. **승인 대기**: 사용자가 명시적으로 "적용" 이라고 답하기 전까지 Edit / Write 실행 금지
 5. **적용**: 승인 후 Edit / Write 로 반영. 새 파일이 생긴 경우 `docs/index.md` 의 "Wiki" 섹션에 한 줄 추가 제안. git add / commit 자동 수행 금지 — 사용자가 직접

@@ -65,7 +65,7 @@ LLM 위키 + task spec + daily/weekly report 워크플로우를 현재 프로젝
 
    **컨벤션은 `~/wiki/WIKI-CONVENTIONS.md` 를 따른다.** 프로젝트 한정 보강:
    - Frontmatter 필수 (`name` / `title` / `description ~80자` / `tags` / `aliases` / `created` / `updated`).
-   - Wikilink 는 leading-slash + 프로젝트 root 기준 풀패스: `[[/docs/wiki/...]]`.
+   - Wikilink 는 leading-slash + `docs/` (vault root) 기준 풀패스: `[[/wiki/...]]`. `/docs/` prefix 는 붙이지 않는다.
    - 작업/보고/로그는 `task/`, `reports/`, `logs/` 폴더로 분리.
    - LLM 초기 프롬프트(`CLAUDE.md`) 와 MOC(`docs/index.md`) 는 분리.
 
@@ -115,7 +115,7 @@ LLM 위키 + task spec + daily/weekly report 워크플로우를 현재 프로젝
 
    - 위키 컨벤션 본체는 `~/wiki/WIKI-CONVENTIONS.md` 를 따른다 (홈 + 프로젝트 공통).
    - CLAUDE.md → 다른 문서: 마크다운 링크 `[t](path)` (GitHub 웹뷰 호환).
-   - docs/ ↔ docs/: leading-slash 풀패스 위키링크 `[[/docs/path/name]]`. 확장자 생략. vault root = repo root.
+   - docs/ ↔ docs/: leading-slash 풀패스 위키링크 `[[/path/name]]`. 확장자 생략. **vault root = `<repo>/docs/`** — `docs/index.md` 의 존재로 wiki.vim 의 `wiki_root_local` 이 `docs/` 를 자동탐지. Obsidian 도 `docs/` 를 vault 로 열면 동일. 따라서 wikilink 에 `/docs/` prefix 없음. vault 밖 (`<repo>/CLAUDE.md` 등) 참조는 마크다운 링크.
    - `@` prefix 절대 금지.
 
    ## 위키 트리거 규칙

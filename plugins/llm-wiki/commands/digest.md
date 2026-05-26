@@ -30,7 +30,7 @@ vault 의 `raw/` 디렉토리에 dump 된 원본 자료를 읽고, 영속 레퍼
 5. **정제 노트 생성 제안**:
    - 새 파일이면: frontmatter (`name` / `title` / `description ~80자` / `tags` / `aliases` / `created` / `updated` 오늘) + 본문 (table/heading/리스트 적절히 구조화) 전체를 보여줌.
    - 기존 파일 확장이면: 추가될 섹션 + frontmatter `updated` 갱신을 diff 로 보여줌.
-   - wikilink 는 leading-slash 풀패스 (`[[/docs/wiki/...]]` 또는 `[[/topics/...]]`).
+   - wikilink 는 leading-slash 풀패스. project mode 는 `[[/wiki/...]]` (vault root = `<repo>/docs/`), home mode 는 `[[/topics/...]]`.
 6. **승인 대기**: 사용자 "적용" 전까지 Write 금지.
 7. **적용**: 승인 후 Write/Edit. 새 파일이면 vault 의 `index.md` 의 해당 카테고리에 한 줄 추가도 함께 제안 (별도 승인).
 8. **원본 보존**: raw/ 의 원본 파일은 절대 삭제하지 않음. 정제본 옆 어딘가에 "출처: raw/<file>" 표기.
