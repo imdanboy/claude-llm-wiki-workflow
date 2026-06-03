@@ -1,5 +1,5 @@
 ---
-description: 현재 프로젝트에 LLM 위키 워크플로우 골격을 부트스트랩한다 (docs/{wiki,raw,task,logs,reports}/ + index.md + _TEMPLATE.md + CLAUDE.md 스니펫 안내)
+description: 현재 프로젝트에 LLM 위키 워크플로우 골격을 부트스트랩한다 (docs/{wiki,raw,task,logs,reports}/ + index.md + todos.md + ideas.md + _TEMPLATE.md + AGENTS.md 정본 + CLAUDE/GEMINI import 안내)
 ---
 
 # /llm-wiki:project-init
@@ -67,23 +67,48 @@ LLM 위키 + task spec + daily/weekly report 워크플로우를 현재 프로젝
    - Frontmatter 필수 (`name` / `title` / `description ~80자` / `tags` / `aliases` / `created` / `updated`).
    - Wikilink 는 leading-slash + `docs/` (vault root) 기준 풀패스: `[[/wiki/...]]`. `/docs/` prefix 는 붙이지 않는다.
    - 작업/보고/로그는 `task/`, `reports/`, `logs/` 폴더로 분리.
-   - LLM 초기 프롬프트(`CLAUDE.md`) 와 MOC(`docs/index.md`) 는 분리.
+   - LLM 초기 프롬프트(`AGENTS.md` 정본, `CLAUDE.md`/`GEMINI.md` 는 `@AGENTS.md` import) 와 MOC(`docs/index.md`) 는 분리.
+
+   ## 바로가기
+   - [[/todos]] — 프로젝트 장기·크로스컷팅 할일 backlog (그날치는 task/)
+   - [[/ideas]] — 미분류 아이디어·키워드 캡처
 
    ## Wiki
    - (새 위키 노트가 생기면 한 줄씩 추가)
 
-   ## Task
-   - (`/llm-wiki:project-new-task` 로 생성)
+   ## 작업 산출물 — task / reports (시간순, 영속 아님)
 
-   ## Reports
-   - (`/llm-wiki:project-daily-report` 로 생성)
+   `task/` 와 `reports/` 는 시간순으로 쌓이는 저durability 산출물이라 (홈 위키의 journal 과 동일) 메인 MOC 에 개별 날짜 파일을 나열하지 않는다 — 폴더/`grep` 으로 탐색.
+
+   - `docs/task/` — 날짜별 작업 명세 `YYYYMMDD.md`. 생성은 `/llm-wiki:project-new-task`.
+   - `docs/reports/` — 일일/주간 보고. `/llm-wiki:project-daily-report`.
    ```
 
    `<project-name>` 은 git 루트 디렉토리명, `<today>` 는 `currentDate` 로 치환.
 
-5. **`.gitignore` 패치**: 파일이 있으면 `docs/logs/` 라인이 이미 있는지 확인. 없으면 끝에 추가. 파일 자체가 없으면 새로 만들고 `docs/logs/` 한 줄만 작성.
+5. **`docs/todos.md` / `docs/ideas.md`**: 각각 존재하지 않을 때만 Write (홈의 root 단일파일 `todos-*`/`journal/inbox` 의 프로젝트판 — 단일 맥락이라 work/home 분리 없음).
 
-6. **CLAUDE.md 안내**: 다음 스니펫을 사용자에게 출력만 한다 (자동 삽입 금지 — 사용자가 위치를 직접 정해서 붙여넣음).
+   - `docs/todos.md`: frontmatter (`name: todos`, `tags: [todos]`, `created`/`updated` = `<today>`) + 본문에 `## Active` / `## Backlog` / `## Done (최근만)` 빈 섹션. "그날치는 task/, 진행 경과는 reports/, 여기엔 장기 항목만" 안내 한 줄.
+   - `docs/ideas.md`: frontmatter (`name: ideas`, `tags: [ideas]`, `aliases: [inbox]`, `created`/`updated` = `<today>`) + 본문에 "분류 전 아이디어·키워드 캡처. 무르익으면 wiki/ 또는 task/ 로 승격, 원본은 비운다" + `## 메모` 빈 섹션. (긴 원본 dump 는 `raw/`, 짧은 착상은 여기.)
+
+6. **`.gitignore` 패치**: 파일이 있으면 `docs/logs/` 라인이 이미 있는지 확인. 없으면 끝에 추가. 파일 자체가 없으면 새로 만들고 `docs/logs/` 한 줄만 작성.
+
+7. **AGENTS.md 부트스트랩 (정본 + 얇은 import) 안내**: 홈 위키 §12 의 agent-agnostic 패턴을 프로젝트에도 적용한다 — **`AGENTS.md` 가 정본**, `CLAUDE.md`/`GEMINI.md` 는 `@AGENTS.md` 한 줄 import. 자동 로드되는 부트스트랩은 작게 유지 (라우팅 요약 + MOC·컨벤션 포인터; 본 스펙은 "필요할 때만 read").
+
+   - **신규 프로젝트** (AGENTS.md/CLAUDE.md 모두 없음): `AGENTS.md` 를 아래 스니펫으로 Write 하고, `CLAUDE.md`·`GEMINI.md` 는 각각 `@AGENTS.md` 한 줄 import 파일로 Write.
+
+     ~~~markdown
+     # <project-name> — Claude Code 부트스트랩
+
+     이 프로젝트의 규칙은 `AGENTS.md` 가 정본이다. 아래 import 를 따른다.
+
+     @AGENTS.md
+     ~~~
+
+   - **기존 CLAUDE.md 가 이미 있는 프로젝트**: 덮어쓰지 말고, "CLAUDE.md 내용을 `AGENTS.md` 로 옮기고 CLAUDE.md/GEMINI.md 는 `@AGENTS.md` import 로 바꾸면 Gemini CLI/Codex 등에서도 동일 부트스트랩이 로드된다" 고 **안내만** 한다 (사용자가 직접 이관).
+   - **`@` carve-out**: AGENTS.md 본문의 "문서 링크 컨벤션" 에 "`@` prefix 금지, 단 루트 `CLAUDE.md`/`GEMINI.md` → `AGENTS.md` 부트스트랩 import 한 줄만 예외" 를 명시. (git repo 라 symlink `ln -sf AGENTS.md CLAUDE.md` 도 가능 — `@` 충돌을 피하고 싶으면 symlink, 동기화 호환·명시성을 원하면 import.)
+
+   AGENTS.md 본문에 넣을 워크플로우 스니펫 (사용자가 위치 조정):
 
    ~~~markdown
    ## 작업 워크플로우
@@ -114,9 +139,9 @@ LLM 위키 + task spec + daily/weekly report 워크플로우를 현재 프로젝
    ## 문서 링크 컨벤션
 
    - 위키 컨벤션 본체는 `~/wiki/WIKI-CONVENTIONS.md` 를 따른다 (홈 + 프로젝트 공통).
-   - CLAUDE.md → 다른 문서: 마크다운 링크 `[t](path)` (GitHub 웹뷰 호환).
-   - docs/ ↔ docs/: leading-slash 풀패스 위키링크 `[[/path/name]]`. 확장자 생략. **vault root = `<repo>/docs/`** — `docs/index.md` 의 존재로 wiki.vim 의 `wiki_root_local` 이 `docs/` 를 자동탐지. Obsidian 도 `docs/` 를 vault 로 열면 동일. 따라서 wikilink 에 `/docs/` prefix 없음. vault 밖 (`<repo>/CLAUDE.md` 등) 참조는 마크다운 링크.
-   - `@` prefix 절대 금지.
+   - 부트스트랩(`AGENTS.md` 및 이를 import 하는 `CLAUDE.md`/`GEMINI.md`) → 다른 문서: 마크다운 링크 `[t](path)` (GitHub 웹뷰 호환).
+   - docs/ ↔ docs/: leading-slash 풀패스 위키링크 `[[/path/name]]`. 확장자 생략. **vault root = `<repo>/docs/`** — `docs/index.md` 의 존재로 wiki.vim 의 `wiki_root_local` 이 `docs/` 를 자동탐지. Obsidian 도 `docs/` 를 vault 로 열면 동일. 따라서 wikilink 에 `/docs/` prefix 없음. vault 밖 (`<repo>/AGENTS.md` 등) 참조는 마크다운 링크.
+   - `@` prefix 절대 금지 (docs/ 내부 링크 + 부트스트랩 본문). **단 하나의 예외**: 루트 `CLAUDE.md`/`GEMINI.md` → `AGENTS.md` 부트스트랩 import 한 줄(`@AGENTS.md`)만 허용.
 
    ## 위키 트리거 규칙
 
@@ -138,13 +163,13 @@ LLM 위키 + task spec + daily/weekly report 워크플로우를 현재 프로젝
    | `/llm-wiki:digest` | raw/ 의 원본 → 정제 노트 + index 한 줄 추가 |
    ~~~
 
-7. **보고**: 다음을 사용자에게 출력.
+8. **보고**: 다음을 사용자에게 출력.
    - 생성한 디렉토리 / 파일 목록 (이미 있어서 건너뛴 것도 명시)
-   - 위 CLAUDE.md 스니펫 — 사용자가 CLAUDE.md 의 적절한 위치에 직접 붙여넣어야 함을 안내
+   - AGENTS.md 부트스트랩: 신규면 생성한 `AGENTS.md`/`CLAUDE.md`/`GEMINI.md` 를, 기존 CLAUDE.md 가 있었으면 위 워크플로우 스니펫 + AGENTS.md 이관 안내를 출력
    - 다음 단계: `/llm-wiki:project-new-task` 로 첫 번째 task spec 만들기
 
 ## 제약
 
-- 기존 파일 덮어쓰기 금지 (특히 `_TEMPLATE.md`, `docs/index.md`, `CLAUDE.md`, `.gitignore` 의 기존 내용)
+- 기존 파일 덮어쓰기 금지 (특히 `_TEMPLATE.md`, `docs/index.md`, `docs/todos.md`, `docs/ideas.md`, `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.gitignore` 의 기존 내용)
 - `.gitignore` 는 덧붙이기만; 기존 라인 재정렬·삭제 금지
 - 자동 commit 금지 — 사용자가 직접

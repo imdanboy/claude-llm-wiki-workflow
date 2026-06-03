@@ -16,8 +16,8 @@ vault 의 `index.md` 를 frontmatter 기반으로 재생성한다. 각 노트의
 
 1. **vault 결정**: 위 자동감지. mode 와 vault root 를 사용자에게 알림.
 2. **카테고리 폴더 스캔**: vault root 하위 폴더 중 frontmatter 갖춘 `.md` 파일을 가진 것들.
-   - **home mode**: `topics/`, `projects/`, `experiments/`, `journal/`, `raw/`. root 의 `todos.md`, `links.md`, `WIKI-CONVENTIONS.md` 등 단일 파일도 별도 처리.
-   - **project mode**: `wiki/`, `task/`, `reports/`, `raw/` (vault root = `<git root>/docs` 기준). `logs/` 는 gitignored 라 인덱스 제외.
+   - **home mode**: `topics/`, `projects/`, `experiments/`, `raw/`. root 의 `todos-work.md`/`todos-home.md`, `refs-work.md`/`refs-home.md`, `WIKI-CONVENTIONS.md` 등 단일 파일도 별도 처리. `journal/` 은 시간순 폭증 카테고리라 **pointer-only** (메인 MOC 엔 `[[/journal/index]]` + `[[/journal/inbox]]` 두 줄만; 일자별 파일 나열 X — WIKI-CONVENTIONS §5.1).
+   - **project mode** (vault root = `<git root>/docs`): per-file 나열은 `wiki/`, `raw/` 만. root 단일 파일 `todos.md`, `ideas.md` 는 별도 처리 (`## 바로가기` 섹션에 노출). `task/`, `reports/` 는 **pointer-only** — 시간순으로 쌓이는 저durability 산출물(홈 `journal/` 과 동일, WIKI-CONVENTIONS §5.1·§11)이라 개별 날짜 파일을 나열하지 않고 작업 산출물 섹션의 폴더 진입점 줄만 유지·보존한다. `logs/` 는 gitignored 라 제외.
 3. **frontmatter 추출**: 각 `.md` 파일의 frontmatter 만 Read (본문 미사용). `name` 과 `description` 추출. frontmatter 가 없는 파일은 경고 목록에 모아 마지막에 보고.
 4. **현재 index.md Read**: 기존 구조 (사용 규칙, Meta, 카테고리 헤더, etc.) 를 보존. 카테고리별 bullet 리스트만 갱신 대상.
 5. **diff 제안**:
